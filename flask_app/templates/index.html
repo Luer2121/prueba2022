@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        function validateRegister() {
+
+            let vemail = document.forms["register"]["email"].value;
+/*            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(vemail)){
+                alert("La dirección de email " + vemail + " es correcta.");
+            } else {
+                alert("La dirección de email es incorrecta.");
+            }*/
+
+            if (document.forms["register"]["password"].value != document.forms["register"]["confirm"].value) {
+                alert("Contraseñas no coinciden");
+            return false;
+            }
+        }
+        </script>
+
+</head>
+<body>
+    <div class="d-flex justify-content-around">
+        <form name="register" action="/register" method="post" class="col-4 p-4 bg-dark text-light" onsubmit="return validateRegister()">
+            <h2 class="text-primary">Register</h2>
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name" class="form-control" required minlength="3" maxlength="255">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" class="form-control" required minlength="3" maxlength="255">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" name="email" class="form-control" required minlength="3" maxlength="255">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" class="form-control" required minlength="3" maxlength="255"  >
+            </div>
+            <div class="form-group">
+                <label for="confirm">Confirm Password:</label>
+                <input type="password" name="confirm" class="form-control" required>
+            </div>
+            <input type="submit" value="Registrar" class="btn btn-primary">
+        </form>
+        <form name="login" action="/login" method="post" class="col-4 p-4 bg-dark text-light">
+            <h2 class="text-success">Login</h2>
+            {% with messages = get_flashed_messages(category_filter=['login']) %}
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>USER INVALID</strong>
+                        {% for message in messages %}
+                        <p>{{message}}</p>
+                        {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <input type="submit" value="Login" class="btn btn-success">
+        </form>
+    </div>
+</body>
+</html>

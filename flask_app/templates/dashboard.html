@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script type="text/javascript">
+        if($_COOKIE["email"]!="")
+            javascript:window.location="index.html"
+</script>
+</head>
+<body>
+    <nav class="d-flex justify-content-between align-items-center col-12">
+        <h1 class="text-center">Hello, {{user.first_name}}</h1>
+        <div class="d-flex col-4 justify-content-around">
+            <a href="/new/appointment" class="btn btn-primary">New Appointment</a>
+            <a href="/logout" method="GET" class="btn btn-info">Logout</a>
+
+        </div>
+
+    </nav>
+    <div class="col-8 mx-auto">
+
+        <table class="table table-hover">
+            <h1 class="text-center">Here are your appointment</h1>
+            <thead>
+                <tr>
+                    <th>TASK</th>
+                    <th>DATE</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                    {% if appointment.users_id == session['users_id'] %}
+                    <tr>
+                        <td>{{appointment.task}}</td>
+                        <td>{{appointment.date.strftime("%b %d %Y")}}</td>
+                        <td>{{appointment.status}}</td>
+                        {% if appointment.status != "Done" %}
+                        <td><a href="/edit/appointment/{{appointment.id}}">Edit</a>
+                        <a href="/destroy/appointment/{{appointment.id}}">Delete</a></td>
+                        {% endif %}
+                    </tr>    
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-8 mx-auto">
+        <table class="table table-hover">
+            <h1 class="text-center">Here are your appointment</h1>
+            <thead>
+                <tr>
+                    <th>TASK</th>
+                    <th>DATE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments2 %}
+                    {% if appointment.users_id == session['users_id'] %}
+                    <tr>
+                        <td>{{appointment.task}}</td>
+                        <td>{{appointment.date.strftime("%b %d %Y")}}</td>
+                    </tr>    
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
